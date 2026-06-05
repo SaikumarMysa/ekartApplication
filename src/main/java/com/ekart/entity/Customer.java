@@ -1,21 +1,24 @@
 package com.ekart.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
+@Table(name = "Customer")
 @Data
 public class Customer {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer customerId;
+
     private String emailId;
+
     private String name;
+
     private String password;
-    private String confirmPassword;
+
     private String phoneNumber;
+
     private String address;
 }

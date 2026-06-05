@@ -15,11 +15,11 @@ public class CustomerAPI {
     //This API provides endpoints for customer regiester, and login.
     @Autowired
     private CustomerService customerService;
+
     @PostMapping("/register")
     public String registerCustomer(@RequestBody CustomerDTO customerDTO){
         Customer customer = customerService.addCustomer(customerDTO);
-        return "Customr is created with id: "+customer.getCustomerId();
-
+        return "Customer is created with id: "+customer.getCustomerId();
     }
 
     @PostMapping("/login")
