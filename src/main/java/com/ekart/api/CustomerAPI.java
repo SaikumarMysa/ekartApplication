@@ -1,6 +1,7 @@
 package com.ekart.api;
 
 import com.ekart.dto.CustomerDTO;
+import com.ekart.dto.LoginDTO;
 import com.ekart.entity.Customer;
 import com.ekart.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,12 @@ public class CustomerAPI {
     }
 
     @PostMapping("/login")
-    public void customerLogin(){
-
+    public String loginCustomer(@RequestBody LoginDTO loginDTO){
+       Customer customer = customerService.loginCustomer(loginDTO.getEmailId(),loginDTO.getPassword());
+       if(customer==null){
+           return "email doesnot exists!!";
+       }
+        return "login successful for customerId: "+customer.getCustomerId();
     }
 
 
