@@ -5,10 +5,9 @@ import com.ekart.dto.LoginDTO;
 import com.ekart.entity.Customer;
 import com.ekart.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/customer-api")
@@ -19,17 +18,33 @@ public class CustomerAPI {
 
     @PostMapping("/register")
     public String registerCustomer(@RequestBody CustomerDTO customerDTO){
-        Customer customer = customerService.addCustomer(customerDTO);
+        Customer customer = customerService.signUp(customerDTO);
         return "Customer is created with id: "+customer.getCustomerId();
     }
 
     @PostMapping("/login")
     public String loginCustomer(@RequestBody LoginDTO loginDTO){
-       Customer customer = customerService.loginCustomer(loginDTO.getEmailId(),loginDTO.getPassword());
+       Customer customer = customerService.authenticateCustomer(loginDTO.getEmailId(),loginDTO.getPassword());
        if(customer==null){
            return "email doesnot exists!!";
        }
         return "login successful for customerId: "+customer.getCustomerId();
+    }
+
+    @GetMapping("/customer/{id}")
+    public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable Integer id){
+        Customer customer = customerService.showCustomerDetails(id);
+
+        CustomerDTO customerDTO =  new CustomerDTO();
+        customerDTO.setCustomerId(customer.getCustomerId());
+        customerDTO.setEmailId(customer.getEmailId());
+        customerDTO.setName(customer.getName());
+        customerDTO.setAddress(customer.getAddress());
+        customerDTO.setPassword(customer.getPassword());
+        customerDTO.setPhoneNumber(customer.getPhoneNumber());
+
+        return new ResponseEntity<>(customerDTO, HttpStatus.OK);
+
     }
 
 

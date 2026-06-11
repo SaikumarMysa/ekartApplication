@@ -16,7 +16,7 @@ public class CustomerService {
     private CustomerRepository customerRepository;
 
     //addCustomer- this method helps in registering a new customer
-    public Customer addCustomer(CustomerDTO customerDTO){
+    public Customer signUp(CustomerDTO customerDTO){
 
         //1. Creating a new Customer object
         Customer customer = new Customer();
@@ -56,7 +56,7 @@ public class CustomerService {
 //        return null;
 //        }
 //    }
-public Customer loginCustomer(String emailId, String password){
+public Customer authenticateCustomer(String emailId, String password){
     if(emailId == null || password == null){
         System.out.println("Enter valid emailId or password!!");
     }
@@ -72,5 +72,9 @@ public Customer loginCustomer(String emailId, String password){
         }
     return null;
 }
+    public Customer showCustomerDetails(Integer customerId){
+        Customer customer = customerRepository.findById(customerId.toString()).orElse(new Customer());
+        return customer;
+    }
 }
 
